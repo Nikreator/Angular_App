@@ -1,0 +1,48 @@
+<div class="container flex-1 justify-center items-center">
+  <div
+    class="justify-center items-center border-double border-4 p-5 bg-red-400 rounded text-center w-[100%] mt-4 mb-4 text-xl font-semibold"
+    *ngIf="error"
+  >
+    <p>{{ error }}</p>
+  </div>
+  <div *ngIf="isLoading" class="text-center">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+  <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
+    <div class="mb-4">
+      <label for="email" class="font-bold mr-2">{{"E-mail" | translate}}:</label>
+      <input
+        type="email"
+        id="email"
+        class="rounded outline outline-offset-2 outline-1 w-[100%]"
+        ngModel
+        name="email"
+        required
+        email
+      />
+    </div>
+    <div class="mb-4">
+      <label for="password" class="font-bold mr-2">{{"Password" | translate}}:</label>
+      <input
+        type="password"
+        id="password"
+        class="rounded outline outline-offset-2 outline-1 w-[100%]"
+        ngModel
+        name="password"
+        required
+        minLength="6"
+      />
+    </div>
+    <div class="flex justify-between">
+      <div>
+        <button
+          class="rounded flex content-center items-center bg-yellow-500 px-4 py-2 mb-2"
+          type="submit"
+          [disabled]="!authForm.valid"
+        >
+          {{"Login" | translate}}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

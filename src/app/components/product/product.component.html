@@ -1,0 +1,56 @@
+<div
+  class="py-4 px-6 border rounded flex items-center flex-col mb-2"
+  [ngClass]="{ hidden: submit, flex: !submit }"
+>
+  <img [src]="product.image" [alt]="product.title" class="w-1/6 mb-2" />
+  <h2 class="mb-2 text-md text-center">{{ product.title }}</h2>
+  <p>
+    {{"Price" | translate}}: <span class="font-bold">{{ product.price | currency }}</span>
+  </p>
+
+  <div *ngIf="details">
+    <p>{{ product.description }}</p>
+    <p>
+      {{"Rate" | translate}}:
+      <span [ngStyle]="{ fontWeight: 'bold' }">{{
+        product.rating.rate | number : "1.2-4"
+      }}</span>
+    </p>
+  </div>
+  <div>
+    <button
+      class="border py-2 px-4 rounded w-[100%] mr-2 mb-2"
+      [ngClass]="{
+        'bg-blue-400': !details,
+        'bg-red-400': details
+      }"
+      (click)="details = !details"
+    >
+      {{"Show Details" | translate}}
+      
+    </button>
+    <button
+      class="border py-2 px-4 rounded bg-yellow-400 w-[100%] mr-2 mb-2"
+      [ngClass]="{
+        'hidden': !navigationComponent.isAuthenticated,
+        'py-2 px-4': navigationComponent.isAuthenticated
+      }"
+      (click)="updateProductComponent.onEditClicked(product.id.toString())"
+      (click)="modalUpdateService.open()" 
+      (click)="loading = !loading"
+    >
+      {{"Edit Card" | translate}}
+    </button>
+
+    <button
+      class="border py-2 px-4 rounded bg-red-400 w-[100%]"
+      [ngClass]="{
+        'hidden': !navigationComponent.isAuthenticated,
+        'py-2 px-4': navigationComponent.isAuthenticated
+      }"
+      (click)="delete(product)"
+    >
+      {{"Delete" | translate}}
+    </button>
+  </div>
+</div>

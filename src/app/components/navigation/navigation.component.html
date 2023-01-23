@@ -1,0 +1,15 @@
+<nav
+  class="absolute top-0 right-0 left-0 h-[50px] flex justify-between items-center text-white bg-gray-500"
+>
+  <a class="font-bold ml-7" routerLink="/">{{'Home' | translate}}</a>
+<div><select (change)="selectLanguage($event)" class="text-black mr-2">
+  <option value="en-US"> {{"language.english" | translate}} </option>
+  <option value="de-DE"> {{"language.german" | translate}} </option>
+</select>
+  <span>
+    <a routerLink="/auth" class="mr-6" *ngIf="!isAuthenticated">{{"Sign Up" | translate}}</a>
+    <button class="mr-6" *ngIf="isAuthenticated" (click)="onLogout()">
+      {{"Logout" | translate}}
+    </button>
+  </span></div>
+</nav>

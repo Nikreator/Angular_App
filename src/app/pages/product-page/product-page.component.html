@@ -1,0 +1,51 @@
+
+<div [ngClass]="{
+  'hidden': !navigationComponent.isAuthenticated,
+  'flex-col py-2 px-4': navigationComponent.isAuthenticated
+}"
+*ngIf="navigationComponent.isAuthenticated">
+  <p class="block text-center items-center font-bold mt-2 mb-2">{{"Filter products by title..." | translate}}</p>
+  <input
+    type="text"
+    class="mb-2 border py-2 px-4 w-full"
+    placeholder="Filter products..."
+    [(ngModel)]="term"
+  />
+  <p class="block text-center items-center font-bold mt-2 mb-2" *ngIf="productsService.isVisible$">{{"Filter products by price..." | translate}}</p>
+  <div class="flex mt-2 mb-2 items-center justify-center">
+    <button class="border py-2 px-4 rounded  bg-yellow-400 text-black ml-3 h-[42px]" 
+    *ngIf="productsService.isVisible$"
+    (click)="productsService.sortProductByPrice(productsService.products)" 
+    >{{"Filter products by price..." | translate}}</button>
+  </div>
+</div>
+
+<app-modal *ngIf="modalService.isVisible$ | async" title="Create new Product">
+  <app-create-product></app-create-product>
+</app-modal>
+<app-modal-update *ngIf="modalUpdateService.isVisible$ | async" title="Update new Product">
+  <app-update-product></app-update-product>
+</app-modal-update>
+
+<p *ngIf="loading" class="text-center text-lg">{{"Loading..." | translate}}</p>
+
+<div *ngIf="productsService.products">
+  <app-product
+    *ngFor="
+      let product of productsService.products | filterProducts : term;
+      let i = index
+    "
+    [product]="product"
+  ></app-product>
+</div>
+
+<button
+  class="rounded-full bg-red-700 text-white fixed right-10 bottom-10"
+  [ngClass]="{
+    'hidden bg-blue-400': !navigationComponent.isAuthenticated,
+    'fixed py-2 px-4': navigationComponent.isAuthenticated
+  }"
+  (click)="modalService.open()"
+>
+  +
+</button>
